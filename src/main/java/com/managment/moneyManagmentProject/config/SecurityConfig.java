@@ -16,12 +16,12 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-		return http.csrf(AbstractHttpConfigurer::disable)
-				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("moneymgm/v1/user/register","moneymgm/v1/user/welcome").permitAll()
-						.requestMatchers("moneymgm/v1/**").authenticated())
-				.formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
-				.build();
+		http.csrf(AbstractHttpConfigurer::disable)
+				.authorizeRequests()
+				.anyRequest().authenticated()
+				.and()
+				.httpBasic();
+		return http.build();	
 	}
 	
 }
