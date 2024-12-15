@@ -50,7 +50,7 @@ public class Ledger {
 	
 	@ManyToOne
     @JoinColumn(name = "USER_ID", nullable = false)
-    private User user;
+    private UserEntity user;
 
 	public Long getId() {
 		return id;
@@ -100,11 +100,11 @@ public class Ledger {
 		this.category = category;
 	}
 
-	public User getUser() {
+	public UserEntity getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserEntity user) {
 		this.user = user;
 	}
 	

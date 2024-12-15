@@ -17,20 +17,20 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="USERS")
-public class User {
+public class UserEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Long id;
 	
-	@Column(name="FIRST_NAME", nullable = false)
+	@Column(name="FIRST_NAME") //nullable=false
 	private String firstname;
 	
 	@Column(name="LAST_NAME")
 	private String lastname;
 	
-	@Column(name="EMAIL", nullable = false)
+	@Column(name="EMAIL")
 	private String email;
 	
 	@Column(name="USER_NAME", nullable=false)

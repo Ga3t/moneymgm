@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.managment.moneyManagmentProject.model.User;
+import com.managment.moneyManagmentProject.model.UserEntity;
 import com.managment.moneyManagmentProject.services.UserServices;
 
 import jakarta.validation.Valid;
@@ -24,12 +24,12 @@ public class UserController {
 	public String welcome() {
 		return "Welcome home, buddy";
 	}
-	@PostMapping("/register")
-	public User saveUser(@Valid @RequestBody User user) {
-	    return service.saveUser(user);
-	}
-	@GetMapping("/{id}")
-	public User findById(@PathVariable Long id) {
-	    return service.findById(id);
-	}
+//	@PostMapping("/register")
+//	public UserEntity saveUser(@Valid @RequestBody UserEntity user) {
+//	    return service.saveUser(user);
+//	}
+//	@GetMapping("/{id}")
+//	public UserEntity findById(@PathVariable Long id) {
+//	    return service.findById(id);
+//	}
 }

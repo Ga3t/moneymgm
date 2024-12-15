@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.managment.moneyManagmentProject.model.Ledger;
-import com.managment.moneyManagmentProject.model.User;
+import com.managment.moneyManagmentProject.model.UserEntity;
 import com.managment.moneyManagmentProject.services.LedgerServices;
 
 import lombok.AllArgsConstructor;
