@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.managment.moneyManagmentProject.dto.AuthResponceDto;
 import com.managment.moneyManagmentProject.dto.LoginDto;
 import com.managment.moneyManagmentProject.dto.RegisterDto;
 import com.managment.moneyManagmentProject.model.Role;
 import com.managment.moneyManagmentProject.model.UserEntity;
 import com.managment.moneyManagmentProject.repository.UserRepository;
+import com.managment.moneyManagmentProject.security.JwtGenerator;
 
 @RestController
 @RequestMapping("moneymgm/auth")
@@ -26,24 +28,28 @@ public class AuthController {
 	private AuthenticationManager authenticationManager;
 	private UserRepository repository;
 	private PasswordEncoder encoder;
+	private JwtGenerator  jwtGenerator;
+
 	
 	@Autowired
 	public AuthController(AuthenticationManager authenticationManager, UserRepository repository,
-			PasswordEncoder encoder) {
+			PasswordEncoder encoder, JwtGenerator jwtGenerator) {
 		this.authenticationManager = authenticationManager;
 		this.repository = repository;
 		this.encoder = encoder;
+		this.jwtGenerator=jwtGenerator;
 	}
 	
 	@PostMapping("login")
-	public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+	public ResponseEntity<AuthResponceDto> login(@RequestBody LoginDto loginDto) {
         // Authenticate the user
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDto.getUsername(),
                         loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-    return new ResponseEntity<>("User enter", HttpStatus.OK);    
+        String token =jwtGenerator.generateToken(authentication);
+        return new ResponseEntity<>(new AuthResponceDto(token), HttpStatus.OK);    
 	}
 	
 	@PostMapping("register")
