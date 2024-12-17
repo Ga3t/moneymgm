@@ -45,10 +45,9 @@ public class LedgerServicesImplement implements LedgerServices{
 	}
 
 	@Override
-	public List<Ledger> getAllTransactionsByUserId(Long userId, int pageNo, int pageSize) {
+	public Page<Ledger> getAllTransactionsByUserId(Long userId, int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo, pageSize);
 		Page<Ledger> ledger = repository.findAllByUserId(userId, pageable);
-		List<Ledger> listOfLedger = ledger.getContent();
-		return listOfLedger;
+		return ledger;
 	}
 }
