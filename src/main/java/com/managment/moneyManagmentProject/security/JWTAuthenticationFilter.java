@@ -29,16 +29,27 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter{
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
-		String token = getJWTFromRequest(request);
-		if(StringUtils.hasText(token) && tokenGenerator.validateToken(token)) {
-			String username= tokenGenerator.getUsernameFromJwt(token);
-			UserDetails userDetails = userService.loadUserByUsername(username);
-			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getAuthorities());
-			authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-		}
-		filterChain.doFilter(request, response);
+	        throws ServletException, IOException {
+	    String token = getJWTFromRequest(request);
+	    System.out.println("Extracted Token: " + token); 
+
+	    if (StringUtils.hasText(token) && tokenGenerator.validateToken(token)) {
+	        String username = tokenGenerator.getUsernameFromJwt(token);
+	        System.out.println("Username from Token: " + username); 
+
+	        UserDetails userDetails = userService.loadUserByUsername(username);
+	        System.out.println("Loaded UserDetails: " + userDetails); 
+
+	        UsernamePasswordAuthenticationToken authenticationToken = 
+	            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+	        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+	        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+	    } else {
+	        System.out.println("Invalid or missing token");
+	    }
+
+	    filterChain.doFilter(request, response);
 	}
 	
 	private String getJWTFromRequest(HttpServletRequest request) {

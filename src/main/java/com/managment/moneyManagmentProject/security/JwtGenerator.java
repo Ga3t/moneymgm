@@ -17,13 +17,14 @@ public class JwtGenerator {
     
 
 	private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-    public String generateToken(Authentication authentication) {
+    public String generateToken(Authentication authentication, Long userId) {
         String username = authentication.getName();
         Date currentDate = new Date();
         Date expDate = new Date(currentDate.getTime() + SecurityConstants.JWT_EXPIRATION);
     
         return Jwts.builder()
                    .setSubject(username)
+                   .claim("id", userId)
                    .setIssuedAt(currentDate)
                    .setExpiration(expDate)
                    .signWith(key, SignatureAlgorithm.HS256)
@@ -38,6 +39,14 @@ public class JwtGenerator {
                             .getBody();
         return claims.getSubject();
     }
+    public Long getUserIdFromJwt(String token) {
+        Claims claims = Jwts.parserBuilder()
+                            .setSigningKey(key)
+                            .build()
+                            .parseClaimsJws(token)
+                            .getBody();
+        return claims.get("id", Long.class);  
+    }
     public boolean validateToken(String token) {
 		try {
 			Jwts.parserBuilder()
@@ -49,6 +58,9 @@ public class JwtGenerator {
 			throw new AuthenticationCredentialsNotFoundException("JWT was exprired or incorrect",ex.fillInStackTrace());
 		}
 	}
+    public static Key getKey() {
+        return key;
+    }
 }
 
 

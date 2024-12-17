@@ -29,6 +29,7 @@ public class AuthController {
 	private UserRepository repository;
 	private PasswordEncoder encoder;
 	private JwtGenerator  jwtGenerator;
+	private UserEntity user;
 
 	
 	@Autowired
@@ -42,14 +43,15 @@ public class AuthController {
 	
 	@PostMapping("login")
 	public ResponseEntity<AuthResponceDto> login(@RequestBody LoginDto loginDto) {
-        // Authenticate the user
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginDto.getUsername(),
-                        loginDto.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token =jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new AuthResponceDto(token), HttpStatus.OK);    
+	    Authentication authentication = authenticationManager.authenticate(
+	            new UsernamePasswordAuthenticationToken(
+	                    loginDto.getUsername(),
+	                    loginDto.getPassword()));
+	    SecurityContextHolder.getContext().setAuthentication(authentication);
+	    UserEntity user = repository.findByUsername(loginDto.getUsername())
+	            .orElseThrow(() -> new RuntimeException("User not found"));
+	    String token = jwtGenerator.generateToken(authentication, user.getId());
+	    return new ResponseEntity<>(new AuthResponceDto(token), HttpStatus.OK);
 	}
 	
 	@PostMapping("register")

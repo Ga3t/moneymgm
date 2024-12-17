@@ -10,8 +10,7 @@ import com.managment.moneyManagmentProject.model.Ledger;
 
 @Service
 public interface LedgerServices {
-	Ledger createLedger(Ledger ledger);
+	Ledger createLedger(Long userId, Ledger ledger);
 	Ledger updateLedger(Ledger ledger);
-	List<Ledger>getAllTransactionsByUserId(Long userId);
-	//List<Ledger>getTransactionsByPeriod(LocalDateTime startDate, LocalDateTime endDate);
+	List<Ledger>getAllTransactionsByUserId(Long userId, int pageNo, int pageSeize);
 }
