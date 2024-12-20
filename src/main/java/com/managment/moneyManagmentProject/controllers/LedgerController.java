@@ -43,11 +43,11 @@ public class LedgerController {
 	}
 	
 	
-	@GetMapping("alltransactions")
+	@GetMapping("transactions")
 	public LedgerResponse getAllTransactions(
 	        @RequestHeader("Authorization") String token, 
-	        @RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo, 
-	        @RequestParam(value = "pageSize", defaultValue = "4", required = false) int pageSize) {
+	        @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo, 
+	        @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
 	    
 	    String jwt = token.replace("Bearer ", "");
 	    Long userId = getUserIdFromToken(jwt);
