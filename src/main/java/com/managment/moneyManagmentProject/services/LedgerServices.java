@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.managment.moneyManagmentProject.dto.TransactionFilterDto;
 import com.managment.moneyManagmentProject.model.Ledger;
 
 @Service
@@ -14,4 +15,6 @@ public interface LedgerServices {
 	Ledger createLedger(Long userId, Ledger ledger);
 	Ledger updateLedger(Ledger ledger);
 	Page<Ledger>getAllTransactionsByUserId(Long userId, int pageNo, int pageSeize);
+	Page<Ledger> getAllTransactionsByUserIdAndFilter(Long userId, int pageNo, int pageSize,
+			TransactionFilterDto transactionFilter);
 }

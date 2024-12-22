@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.managment.moneyManagmentProject.dto.LedgerDTO;
 import com.managment.moneyManagmentProject.dto.LedgerResponse;
+import com.managment.moneyManagmentProject.dto.TransactionFilterDto;
 import com.managment.moneyManagmentProject.exeptions.UnauthorizedException;
 import com.managment.moneyManagmentProject.model.Ledger;
 import com.managment.moneyManagmentProject.model.UserEntity;
@@ -47,15 +48,13 @@ public class LedgerController {
 	public LedgerResponse getAllTransactions(
 	        @RequestHeader("Authorization") String token, 
 	        @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo, 
-	        @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
-	    
+	        @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize, 
+	        TransactionFilterDto filter) {
 	    String jwt = token.replace("Bearer ", "");
 	    Long userId = getUserIdFromToken(jwt);
 	    if (userId == null) {
 	        throw new UnauthorizedException("Invalid or expired token");
-	    }
-
-	   
+	    }	   
 	    Page<Ledger> page = service.getAllTransactionsByUserId(userId, pageNo, pageSize);
 	    List<LedgerDTO> content = page.getContent()
 	                                  .stream()
@@ -72,6 +71,51 @@ public class LedgerController {
 	    
 	    return response;
 	}
+	
+
+    @GetMapping("transactionsByfilter")
+    public LedgerResponse getTransactionByFilter(@RequestHeader("Authorized") String token, 
+    		@RequestParam (value="PageNo", defaultValue = "0", required = false) int pageNo,
+    		@RequestParam(value = "PageSize", defaultValue = "10", required = false) int pageSize,
+    		TransactionFilterDto transactionFilter
+    		)
+    {
+    	String jwt = token.replace("Bearer ", "");
+    	Long userId = getUserIdFromToken(token);
+    	if (userId ==null) {
+    		throw new UnauthorizedException("Token expired or incorrect");
+    	}
+    	//Добавить обработку if(startDate==null); if(startPrice==null&endPrice!=null)
+    	LedgerResponse response = new LedgerResponse();
+    	if(transactionFilter != null) {
+    		Page<Ledger> page = service.getAllTransactionsByUserIdAndFilter(userId, pageNo, pageSize, transactionFilter);
+        	List<LedgerDTO> content = page.getContent()
+        							   .stream()
+        							   .map(this::convertToDTO)
+        							   .toList();
+        	response.setContent(content);
+        	response.setPageNo(page.getNumber());
+        	response.setPageSize(page.getSize());
+        	response.setTotalElements(page.getTotalElements());
+        	response.setLast(page.isLast());
+    	}
+    	else {
+    		Page<Ledger> page = service.getAllTransactionsByUserId(userId, pageNo, pageSize);
+    		List<LedgerDTO> content = page.getContent()
+    							   .stream()
+    							   .map(this::convertToDTO)
+    							   .toList();
+    		response.setContent(content);
+        	response.setPageNo(page.getNumber());
+        	response.setPageSize(page.getSize());
+        	response.setTotalElements(page.getTotalElements());
+        	response.setLast(page.isLast());
+    	}
+    	
+    	
+    	
+    	return response;
+    }
 
 	private LedgerDTO convertToDTO(Ledger ledger) {
 	    LedgerDTO dto = new LedgerDTO();

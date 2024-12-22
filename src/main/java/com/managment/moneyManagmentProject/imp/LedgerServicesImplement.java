@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.managment.moneyManagmentProject.dto.TransactionFilterDto;
 import com.managment.moneyManagmentProject.model.Ledger;
 import com.managment.moneyManagmentProject.model.UserEntity;
 import com.managment.moneyManagmentProject.repository.LedgerRepository;
@@ -48,6 +49,14 @@ public class LedgerServicesImplement implements LedgerServices{
 	public Page<Ledger> getAllTransactionsByUserId(Long userId, int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo, pageSize);
 		Page<Ledger> ledger = repository.findAllByUserId(userId, pageable);
+		return ledger;
+	}
+
+	@Override
+	public Page<Ledger> getAllTransactionsByUserIdAndFilter(Long userId, int pageNo, int pageSize,
+			TransactionFilterDto transactionFilter) {
+		Pageable pageable = PageRequest.of(pageNo, pageSize);
+		Page<Ledger> ledger = repository.findAllByUserIdAndFilter(userId, transactionFilter);
 		return ledger;
 	}
 }
