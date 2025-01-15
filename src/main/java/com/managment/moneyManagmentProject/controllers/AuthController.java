@@ -6,12 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.managment.moneyManagmentProject.dto.AuthResponceDto;
 import com.managment.moneyManagmentProject.dto.LoginDto;
@@ -23,6 +20,7 @@ import com.managment.moneyManagmentProject.security.JwtGenerator;
 
 @RestController
 @RequestMapping("moneymgm/auth")
+@CrossOrigin
 public class AuthController {
 
 	private AuthenticationManager authenticationManager;

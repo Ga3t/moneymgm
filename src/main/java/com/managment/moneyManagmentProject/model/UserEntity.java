@@ -37,6 +37,7 @@ public class UserEntity {
 	private String username;
 	
 	@Column(name="PASSWORD", nullable = false)
+	@JsonIgnore
 	private String password;
 	
 	@Enumerated(value=EnumType.STRING)

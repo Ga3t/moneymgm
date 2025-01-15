@@ -6,8 +6,7 @@ import lombok.Data;
 
 @Data
 public class LedgerResponse {
-	private List<LedgerDTO> content;
-	
+	private List<InfoLedgerDTO> content;
 	private int pageNo;
 	private int pageSize;
 	private Long totalElements;

@@ -9,6 +9,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,10 +27,6 @@ public class Ledger {
 	@Column(name="ID", nullable = false)
 	private Long id;
 	
-	@Enumerated(value = EnumType.STRING)
-	@Column(name = "TRANSACTION_TYPE", nullable = false)
-	private TransactionType transactionType;
-	
 	@Column(name = "PRICE", precision = 10, scale = 2, nullable = false)
 	@Digits(integer = 8, fraction = 2)
 	private BigDecimal price;
@@ -44,11 +41,11 @@ public class Ledger {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]")
 	private LocalDateTime date;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID", nullable = false)
     private UserEntity user;
 
@@ -60,13 +57,13 @@ public class Ledger {
 		this.id = id;
 	}
 
-	public TransactionType getTransactionType() {
-		return transactionType;
-	}
-
-	public void setTransactionType(TransactionType transactionType) {
-		this.transactionType = transactionType;
-	}
+//	public TransactionType getTransactionType() {
+//		return transactionType;
+//	}
+//
+//	public void setTransactionType(TransactionType transactionType) {
+//		this.transactionType = transactionType;
+//	}
 
 	public BigDecimal getPrice() {
 		return price;
