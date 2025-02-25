@@ -25,19 +25,18 @@ public class UserServicesImplement implements UserServices{
 
 	@Override
 	public UserEntity saveUser(UserEntity user) {
-		// TODO Auto-generated method stub
 		return repository.save(user);
 	}
 
 	@Override
 	public UserEntity findById(Long id) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public UserEntity findByUsername(String username) {
-		// TODO Auto-generated method stub
+
 		return repository.findByUsername(username)
 				.orElseThrow(() -> new RuntimeException("User not found"));
 	}

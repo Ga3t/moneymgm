@@ -20,7 +20,6 @@ import com.managment.moneyManagmentProject.security.JwtGenerator;
 
 @RestController
 @RequestMapping("moneymgm/auth")
-@CrossOrigin
 public class AuthController {
 
 	private AuthenticationManager authenticationManager;
@@ -41,6 +40,7 @@ public class AuthController {
 	
 	@PostMapping("login")
 	public ResponseEntity<AuthResponceDto> login(@RequestBody LoginDto loginDto) {
+		System.out.println(loginDto);
 	    Authentication authentication = authenticationManager.authenticate(
 	            new UsernamePasswordAuthenticationToken(
 	                    loginDto.getUsername(),
@@ -54,6 +54,7 @@ public class AuthController {
 	
 	@PostMapping("register")
 	public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
+		System.out.println(registerDto);
 		if(repository.existsByUsername(registerDto.getUsername())) {
 			return new ResponseEntity<>("Username allready taken!", HttpStatus.BAD_REQUEST);
 		}

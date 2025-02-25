@@ -63,5 +63,3 @@ public class JwtGenerator {
     }
 }
 
-
-//cd /d/javaprojectseclipse/moneyManagmentProject

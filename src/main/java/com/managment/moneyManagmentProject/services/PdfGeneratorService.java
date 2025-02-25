@@ -24,9 +24,8 @@ public class PdfGeneratorService {
             document.open();
 
             PdfPTable table = new PdfPTable(6); // 6 колонок
-            table.setWidthPercentage(100); // Ширина таблицы на всю страницу
-            // Можно настроить ширину колонок, например:
-            // table.setWidths(new float[] {15f, 20f, 15f, 15f, 15f, 20f});
+            table.setWidthPercentage(100);
+
 
             Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
 
@@ -35,9 +34,8 @@ public class PdfGeneratorService {
 
             document.add(table);
         } catch (DocumentException e) {
-            // Обработка исключения
             e.printStackTrace();
-            return null; // Или выбросить исключение, чтобы контроллер обработал ошибку
+            return null;
         } finally {
             document.close();
         }

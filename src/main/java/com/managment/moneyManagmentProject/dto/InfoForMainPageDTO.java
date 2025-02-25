@@ -14,5 +14,4 @@ public class InfoForMainPageDTO {
     private BigDecimal lastTransfer;
     private String categoryType;
     private Integer lastYear;
-    
 }

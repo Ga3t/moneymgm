@@ -7,6 +7,7 @@ import java.util.List;
 import com.managment.moneyManagmentProject.dto.InfoForMainPageDTO;
 import com.managment.moneyManagmentProject.dto.MonthLedgerDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.managment.moneyManagmentProject.dto.TransactionFilterDto;
@@ -19,7 +20,9 @@ public interface LedgerServices {
 	Page<Ledger>getAllTransactionsByUserId(Long userId, int pageNo, int pageSeize);
 	Page<Ledger> getAllTransactionsByUserIdWithCustomFilter(Long userId, int pageNo, int pageSize,
 			TransactionFilterDto transactionFilter);
-	public List<Ledger> getAllTransactionsByUserIdWithCustomFilterForPDF(Long userId, TransactionFilterDto transactionFilter);
-	public InfoForMainPageDTO getInfoForMainPage(Long userId, int year, int month);
+	List<Ledger> getAllTransactionsByUserIdWithCustomFilterForPDF(Long userId, TransactionFilterDto transactionFilter);
+	InfoForMainPageDTO getInfoForMainPage(Long userId, int year, int month);
 	List<MonthLedgerDTO> getInfoForMonthLedger(Long userId, int year, int month);
+	ResponseEntity<InfoForMainPageDTO> getInfoForMainPageNew(Long userId, int year, int month);//new version
+	ResponseEntity<List<MonthLedgerDTO>> getInfoForMonthLedgerNew(Long userId, int year, int month);
 }

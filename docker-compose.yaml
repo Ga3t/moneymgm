@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 services:
   db:
     image: fiartag/poststartupmoneymgm:latest
@@ -11,13 +11,13 @@ services:
       - POSTGRES_USER=postgres
     restart: always
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
 
   backend:
-    image: fiartag/moneymanagment-backend:latest
+    image: fiartag/moneymgmbackend:latest
     container_name: moneymanagment_container
     ports:
       - "8080:8080"
@@ -28,4 +28,13 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    restart: always
+
+  frontend:
+    image: dd3n9/where_is_my_money:latest
+    container_name: react-app-container
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
     restart: always

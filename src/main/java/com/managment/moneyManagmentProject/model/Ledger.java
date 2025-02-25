@@ -57,13 +57,6 @@ public class Ledger {
 		this.id = id;
 	}
 
-//	public TransactionType getTransactionType() {
-//		return transactionType;
-//	}
-//
-//	public void setTransactionType(TransactionType transactionType) {
-//		this.transactionType = transactionType;
-//	}
 
 	public BigDecimal getPrice() {
 		return price;
